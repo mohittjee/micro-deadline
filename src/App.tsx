@@ -3,6 +3,7 @@ import Page from "./pages/landing/Hero";
 import AvatarOnboarding, { NewSession } from "./pages/onbording/AvatarOnboarding";
 import { BlueGradient } from "./components/ui/SVGs";
 import SessionTimer from "./pages/session/SessionTimer";
+import SessionEnd from "./pages/session/SessionEnd";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/setup" element={<AvatarOnboarding />} />
             <Route path="/session" element={<NewSession />} />
             <Route path="/session-timer" element={<SessionTimer />} />
+            <Route path="/session-end" element={<SessionEnd />} />
           </Routes>
         </main>
       </div>

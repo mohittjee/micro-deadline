@@ -11,6 +11,7 @@ export default {
 				'kai': 'linear-gradient(180deg, #F59E0B 0%, #FFFFFF 100%)',
 				'daniel': 'linear-gradient(180deg, #3B82F6 0%, #FFFFFF 100%)',
 				'gradient-avatar': 'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.25) 177.25%)',
+				'gradient-blue-white': 'linear-gradient(180deg, rgba(14, 165, 233, 0.5) 0%, rgba(255, 255, 255, 0.5) 100%)',
 			},
 			boxShadow: {
 				'inset-soft': '0px 0px 8px 0px #FFFFFF inset',
@@ -19,6 +20,8 @@ export default {
 				'inset-hard': '0px 0px 32px 0px #FFFFFF inset',
 				'inset-heavy': '0px 0px 48px 0px #FFFFFF inset',
 				'inset-avatar': '0px 0px 32px 6px #FFFFFF inset, 0px 0px 100px 0px #FFFFFF inset',
+				'inset-hard-2': '0px 0px 32px 0px rgba(255, 255, 255, 1) inset', // Strong inset glow
+
 			},
 			backdropBlur: {
 				light: '32px',
