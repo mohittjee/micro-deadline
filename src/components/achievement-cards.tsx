@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { cn } from "@/lib/utils"
+import { Achievement2, FireBadge, Timer } from "./ui/SVGs"
 
 // Base Achievement Card Component
 interface AchievementCardProps {
@@ -44,9 +45,7 @@ function WorkSessionCard({ workTime, currentLevel, basePoints, bonusPoints, maxP
             title="Great Job!"
             subtitle={`You worked for ${workTime}`}
             icon={
-                <div className="w-16 h-16 bg-emerald-700 rounded-lg flex items-center justify-center">
-                    <div className="w-6 h-8 border-r-4 border-l-4 border-white" />
-                </div>
+                <Achievement2 />
             }
         >
             <div className="space-y-2">
@@ -56,7 +55,7 @@ function WorkSessionCard({ workTime, currentLevel, basePoints, bonusPoints, maxP
                         {basePoints} <span className="text-amber-500">+{bonusPoints}</span> / {maxPoints}
                     </span>
                 </div>
-                <div className="relative">
+                <div className="relative ">
                     <Progress value={(basePoints / maxPoints) * 100} className="h-8 bg-gray-100 rounded-lg" />
                     <Progress
                         value={((basePoints + bonusPoints) / maxPoints) * 100}
@@ -89,14 +88,7 @@ function StreakCard({ days, weekProgress }: StreakCardProps) {
             title={`${days} day streak!`}
             subtitle="You're on fire!"
             icon={
-                <div className="w-16 h-16 bg-gradient-to-b from-red-900 to-red-800 rounded-full flex items-center justify-center border-2 border-amber-300">
-                    <svg viewBox="0 0 24 24" fill="none" className="w-8 h-8" stroke="currentColor" strokeWidth="2">
-                        <path
-                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"
-                            fill="#ef4444"
-                        />
-                    </svg>
-                </div>
+                <FireBadge />
             }
         >
             <span className="text-sm font-medium px-2">Streak</span>
@@ -106,7 +98,7 @@ function StreakCard({ days, weekProgress }: StreakCardProps) {
                     <div
                         key={day}
                         className={cn(
-                            "aspect-square rounded-lg flex items-center justify-center font-medium",
+                            " h-10 gap-1 rounded-lg flex items-center justify-center font-semibold text-sm",
                             weekProgress[index] === "active" && "bg-blue-500 text-white",
                             weekProgress[index] === "current" && "bg-amber-400 text-white",
                             weekProgress[index] === "inactive" && "bg-gray-100 text-gray-400",
@@ -133,9 +125,7 @@ function TimeSpentCard({ totalTime, targetHours, currentProgress }: TimeSpentCar
             title={`${totalTime} total time spent`}
             subtitle="Way to go!"
             icon={
-                <div className="w-16 h-16 bg-navy-900 rounded-full flex items-center justify-center">
-                    <div className="w-8 h-8 border-4 border-blue-400 rounded-full" />
-                </div>
+                <Timer />
             }
         >
             <div className="space-y-2">

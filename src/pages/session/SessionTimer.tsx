@@ -6,6 +6,7 @@ import { useTimer } from "@/hooks/useTimer"
 import { formatTime } from "@/lib/time"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Progress } from "@/components/ui/progress"
+import { createPortal } from "react-dom"
 
 interface Task {
     id: number
@@ -15,110 +16,141 @@ interface Task {
     startTime?: number
 }
 
+interface PiPWindowProps {
+    activeTask: Task | null | undefined;
+    progress: number;
+    isRecording: boolean;
+    micOn: boolean;
+    onClose: () => void;
+    onTogglePlay: () => void;
+    onStop: () => void;
+}
+
+const PiPWindow: React.FC<PiPWindowProps> = ({
+    activeTask,
+    progress,
+    isRecording,
+    micOn,
+    onClose,
+    onTogglePlay,
+    onStop
+}) => {
+    return (
+        <div
+            className="fixed bottom-5 right-5 w-80 h-30 bg-white shadow-lg rounded-lg p-2 z-50 flex flex-col"
+        >
+            {isRecording ? (
+                <div className="flex flex-col gap-1 bg-[#22C55EE5] shadow-inset-hard rounded-lg flex-grow">
+                    <div className="text-white text-sm font-semibold flex justify-between items-center py-2 px-2">
+                        {"AI Volume"}
+                    </div>
+                    <div className="w-full flex flex-wrap justify-between items-center p-1 gap-1">
+                        <div className="h-10 bg-white/20 rounded-lg flex-1">
+                            <Progress
+                                value={Math.min(progress, 100)}
+                                className="h-full w-full bg-white rounded-lg transition-all duration-300"
+                            />
+                        </div>
+                        <div className="bg-white text-[#22C55EE5] px-2.5 py-2.5 rounded-lg w-fit flex items-center">
+                            <span className="text-sm font-semibold">{formatTime(activeTask?.duration || 0)}</span>
+                        </div>
+                    </div>
+                </div>
+            ) : (
+                <div className="flex flex-col gap-1 flex-grow">
+                    {micOn ? (
+                        <div className="flex items-center gap-2 p-3 bg-[#22C55EE5] shadow-inset-hard rounded-lg">
+                            <div
+                                className="w-16 h-16 rounded-sm flex-shrink-0 bg-cover bg-center shadow-inset-soft hover:shadow-inset-glow transition duration-300"
+                                style={{
+                                    backgroundImage: "url('/luna.png?height=48&width=48')",
+                                }}
+                            />
+                            <span className="font-semibold text-sm text-white">
+                                How's progress on your Task 1 going? Any challenges you'd like to take?
+                            </span>
+                        </div>
+                    ) : (
+                        <div className="flex flex-col gap-1">
+                            <div className="text-sm font-semibold flex justify-between items-center px-2">
+                                {activeTask?.name || "No Active Task"}
+                                <Button
+                                    variant="ghost"
+                                    className="text-gray-400 bg-transparent"
+                                    onClick={onClose}
+                                >
+                                    <Maximize2 className="h-5 w-5" />
+                                </Button>
+                            </div>
+                            <div className="w-full flex flex-wrap justify-between items-center p-1 gap-1">
+                                <div className="h-10 bg-gray-100 rounded-lg flex-1">
+                                    <Progress
+                                        value={Math.min(progress, 100)}
+                                        className="h-full w-full rounded-lg transition-all duration-300"
+                                    />
+                                </div>
+                                <div className="bg-gray-900 text-white px-2.5 py-2.5 rounded-lg w-fit flex items-center">
+                                    <span className="text-sm font-semibold">{formatTime(activeTask?.duration || 0)}</span>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
+
+            <div className="grid grid-cols-4 gap-1 items-center h-10 mt-2">
+                <Button
+                    variant="ghost"
+                    className={`border-none hover:outline-none hover:border-none bg-transparent hover:bg-transparent ${isRecording ? "text-[#22C55E] bg-[#22C55E1A] hover:bg-[#22C55E1A]" : "text-gray-400"}`}
+                >
+                    <AudioLines className="h-6 w-6 shrink-0" />
+                </Button>
+                <Button
+                    variant="ghost"
+                    className={`border-none hover:outline-none hover:border-none bg-transparent hover:bg-transparent ${micOn ? "text-[#22C55E] bg-[#22C55E1A] hover:bg-[#22C55E1A]" : "text-gray-400"}`}
+                >
+                    <Mic className="h-6 w-6" />
+                </Button>
+                <Button
+                    variant="ghost"
+                    className="text-gray-400 border-none hover:outline-none hover:border-none bg-transparent hover:bg-transparent"
+                    disabled={!activeTask}
+                    onClick={onTogglePlay}
+                >
+                    {activeTask?.isPlaying ? <PauseIcon className="h-6 w-6" /> : <PlayIcon className="h-6 w-6" />}
+                </Button>
+                <Button
+                    variant="ghost"
+                    className="text-red-500 border-none hover:outline-none hover:border-none bg-[#EF44441A] hover:bg-[#EF44441A]"
+                    onClick={onStop}
+                    disabled={!activeTask}
+                >
+                    <Square className="h-6 w-6 fill-[#EF4444]" />
+                </Button>
+
+            </div>
+        </div>
+    );
+};
+
+
 
 export default function SessionTimer() {
     const [tasks, setTasks] = useState<Task[]>([])
     const [activeTaskId, setActiveTaskId] = useState<number | null>(null)
     const [isRecording, setIsRecording] = useState(false)
     const [micOn, setMicOn] = useState(false)
-    const [isPiP, setIsPiP] = useState(false)
+    // const [isPiP, setIsPiP] = useState(false)
     const timer = useTimer()
     const pipWindowRef = useRef<Window | null>(null)
     const id = useId();
     const [selectedValue, setSelectedValue] = useState("on");
+    const [isPiP, setIsPiP] = useState(false);
+    const pipContainerRef = useRef<HTMLDivElement | null>(null);
 
     const togglePiP = () => {
-        if (isPiP) {
-            pipWindowRef.current?.close()
-            setIsPiP(false)
-            return
-        }
-
-        const pipWindow = window.open(
-            '',
-            'Task Timer PiP',
-            'width=320,height=240,resizable=no,scrollbars=no,status=no'
-        )
-
-        if (pipWindow) {
-            pipWindowRef.current = pipWindow
-            setIsPiP(true)
-
-            pipWindow.document.write(`
-                <html>
-                    <head>
-                        <style>
-                            body { 
-                                font-family: sans-serif; 
-                                display: flex;
-                                flex-direction: column;
-                                align-items: center;
-                                justify-content: center;
-                                height: 100vh;
-                                margin: 0;
-                                background-color: white;
-                            }
-                            .task-name { 
-                                font-size: 18px; 
-                                margin-bottom: 10px; 
-                            }
-                            .timer { 
-                                font-size: 24px; 
-                                font-weight: bold; 
-                            }
-                            .controls {
-                                margin-top: 10px;
-                                display: flex;
-                                gap: 10px;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <div class="task-name"></div>
-                        <div class="timer"></div>
-                        <div class="controls">
-                            <button id="cancelBtn">Close PiP</button>
-                            <button id="mainBtn">Go to Main</button>
-                        </div>
-                    </body>
-                </html>
-            `)
-
-            const updateContent = () => {
-                if (!pipWindow.closed) {
-                    const taskNameEl = pipWindow.document.querySelector('.task-name')
-                    const timerEl = pipWindow.document.querySelector('.timer')
-
-                    if (taskNameEl && timerEl) {
-                        taskNameEl.textContent = activeTask?.name || "No active task"
-                        timerEl.textContent = formatTime(activeTask?.duration || 0)
-                    }
-                }
-            }
-
-            const intervalId = setInterval(updateContent, 1000)
-
-            const cancelBtn = pipWindow.document.getElementById('cancelBtn')
-            const mainBtn = pipWindow.document.getElementById('mainBtn')
-
-            cancelBtn?.addEventListener('click', () => {
-                clearInterval(intervalId)
-                pipWindow.close()
-                setIsPiP(false)
-            })
-
-            mainBtn?.addEventListener('click', () => {
-                window.focus()
-                pipWindow.close()
-                setIsPiP(false)
-            })
-
-            pipWindow.addEventListener('beforeunload', () => {
-                clearInterval(intervalId)
-                setIsPiP(false)
-            })
-        }
-    }
+        setIsPiP(!isPiP);
+    };
 
     // Handle active task timer
     useEffect(() => {
@@ -176,8 +208,8 @@ export default function SessionTimer() {
         : 0
 
     return (
-        <div className="min-h-screen w-full flex flex-col">
-            <div className="w-1/3 mx-auto space-y-4 flex-grow">
+        <div className="min-h-full w-full flex flex-col justify-center">
+            <div className="w-1/3 mx-auto space-y-2 flex-grow flex flex-col justify-center">
                 {/* Active Task Card */}
                 <Card className="bg-white gap-1 flex flex-col p-2">
 
@@ -238,6 +270,13 @@ export default function SessionTimer() {
                         </>
 
                     )}
+
+
+
+
+
+
+
 
                     {/* buttons */}
                     {isRecording ? (
@@ -305,6 +344,18 @@ export default function SessionTimer() {
 
                 </Card>
 
+                {isPiP && createPortal(
+                    <PiPWindow
+                        activeTask={activeTask}
+                        progress={progress}
+                        isRecording={isRecording}
+                        micOn={micOn}
+                        onClose={() => setIsPiP(false)}
+                        onTogglePlay={() => activeTaskId && handleTaskSelect(activeTaskId)}
+                        onStop={handleStop}
+                    />,
+                    document.body
+                )}
 
                 {/* Tasks List Card */}
                 <Card>
@@ -358,4 +409,3 @@ export default function SessionTimer() {
         </div>
     )
 }
-
