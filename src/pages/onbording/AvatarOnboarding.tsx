@@ -29,13 +29,13 @@ export const NewSession = () => {
           <div>
             <p className="mb-1.5 block font-semibold text-xs">
               What are we working on today?            </p>
-            <Textarea className='border-none bg-[#F8F8F8] h-24 rounded-md' placeholder='Write a short description' />
+            <Textarea className='border-none bg-[#F8F8F8] h-24 overflow-auto rounded-md resize-none' placeholder='Write a short description' />
           </div>
           <div>
             <p className="mb-1.5 block font-semibold text-xs">
               Set Timer
             </p>
-            <div className="flex items-center justify-center space-x-1 h-10 bg-[#F8F8F8]">
+            <div className="flex items-center justify-center rounded-lg space-x-1 h-10 bg-[#F8F8F8]">
               <span className='text-[#999999] font-semibold text-sm'>00:30:00</span>
 
               {/* <Progress className='h-8 bg-[#F8F8F8] rounded-md' value={33} />
@@ -68,7 +68,7 @@ export const NewSession = () => {
             <p className="mb-1.5 block font-semibold text-xs">
               Check In every
             </p>
-            <div className="flex items-center justify-center space-x-1 h-10 bg-[#F8F8F8]">
+            <div className="flex rounded-lg items-center justify-center space-x-1 h-10 bg-[#F8F8F8]">
               <span className='text-[#999999] font-semibold text-sm'>00:30:00</span>
               {/* <Progress className='h-8 bg-[#F8F8F8] rounded-md' value={33} />
               <Button className='bg-[#0EA5E9] border-none outline-none hover:border-none hover:outline-none'>15:00</Button> */}
