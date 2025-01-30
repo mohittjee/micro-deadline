@@ -77,9 +77,9 @@ export default function Leaderboard() {
                 <div className="relative overflow-y-scroll h-full invisible-scrollbar">
                     <Table className="">
                         <TableHeader className="sticky top-0 bg-white z-50 ">
-                            <TableRow className="border-none">
-                                <TableHead className="w-24 text-center">Rank</TableHead>
-                                <TableHead className="w-24 text-center">Level</TableHead>
+                            <TableRow className="border-none ">
+                                <TableHead className="w-16 text-center">Rank</TableHead>
+                                <TableHead className="w-24 text-left">Level</TableHead>
                                 <TableHead>Name</TableHead>
                                 <TableHead className="w-24 text-center">Streak</TableHead>
                                 <TableHead className="w-32 text-center">Total Time</TableHead>
