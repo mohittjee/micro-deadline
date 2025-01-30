@@ -74,7 +74,7 @@ export default function Leaderboard() {
     return (
         <div className="flex flex-col items-center justify-center h-full">
             <Card className=" w-[60vw] p-2 mb-10 h-[80vh] shadow-none border-[#F5F5F5] ">
-                <div className="overflow-y-scroll h-full invisible-scrollbar">
+                <div className="relative overflow-y-scroll h-full invisible-scrollbar">
                     <Table className="">
                         <TableHeader className="sticky top-0 bg-white z-50">
                             <TableRow>
@@ -116,6 +116,7 @@ export default function Leaderboard() {
                             ))}
                         </TableBody>
                     </Table>
+                    <div className="sticky bottom-0 w-full bg-gradient-to-t from-white via-white/40 to-transparent h-20 -mt-20 pointer-events-none" />
                 </div>
             </Card>
 
@@ -140,7 +141,7 @@ export default function Leaderboard() {
                     </Button>
                 </div>
             </footer>
-            </div>
+        </div>
     )
 }
 
