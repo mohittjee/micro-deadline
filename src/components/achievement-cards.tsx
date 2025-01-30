@@ -18,13 +18,13 @@ function AchievementCard({ title, subtitle, icon, children, className }: Achieve
             {/* <CardHeader className="text-center space-y-1 ">
                
             </CardHeader> */}
-            <CardContent className=" rounded-lg  backdrop-blur-3xl shadow-inset-hard-2 bg-gradient-blue-white">
+            <div className=" rounded-lg  backdrop-blur-3xl shadow-inset-hard-2 bg-gradient-blue-white">
                 <span className="text-lg py-4 font-medium text-gray-700 flex flex-col text-center items-center">
                     {title} <br />
                     {subtitle && <>{subtitle}</>}
                 </span>
                 <div className="flex justify-center">{icon}</div>
-            </CardContent>
+            </div>
             {children}
         </Card>
     )
@@ -48,7 +48,7 @@ function WorkSessionCard({ workTime, currentLevel, basePoints, bonusPoints, maxP
                 <Achievement2 />
             }
         >
-            <div className="space-y-2">
+            <div className="space-y-1.5">
                 <div className="flex justify-between items-center">
                     <span className="text-sm font-medium px-2">Level</span>
                     <span className="text-sm text-gray-500">
@@ -91,22 +91,25 @@ function StreakCard({ days, weekProgress }: StreakCardProps) {
                 <FireBadge />
             }
         >
-            <span className="text-sm font-medium px-2">Streak</span>
+            <div className="space-y-1.5">
 
-            <div className="grid grid-cols-7 gap-2">
-                {weekDays.map((day, index) => (
-                    <div
-                        key={day}
-                        className={cn(
-                            " h-10 gap-1 rounded-lg flex items-center justify-center font-semibold text-sm",
-                            weekProgress[index] === "active" && "bg-blue-500 text-white",
-                            weekProgress[index] === "current" && "bg-amber-400 text-white",
-                            weekProgress[index] === "inactive" && "bg-gray-100 text-gray-400",
-                        )}
-                    >
-                        {day}
-                    </div>
-                ))}
+                <span className="text-sm font-medium px-2">Streak</span>
+
+                <div className="grid grid-cols-7 gap-2">
+                    {weekDays.map((day, index) => (
+                        <div
+                            key={day}
+                            className={cn(
+                                " h-10 gap-1 rounded-lg flex items-center justify-center font-semibold text-sm",
+                                weekProgress[index] === "active" && "bg-blue-500 text-white",
+                                weekProgress[index] === "current" && "bg-amber-400 text-white",
+                                weekProgress[index] === "inactive" && "bg-gray-100 text-gray-400",
+                            )}
+                        >
+                            {day}
+                        </div>
+                    ))}
+                </div>
             </div>
         </AchievementCard>
     )
@@ -128,7 +131,7 @@ function TimeSpentCard({ totalTime, targetHours, currentProgress }: TimeSpentCar
                 <Timer />
             }
         >
-            <div className="space-y-2">
+            <div className="space-y-1.5">
                 <div className="flex justify-between items-center">
                     <span className="text-sm font-semibold px-2">Next award in</span>
                     <span className="text-sm font-semibold text-gray-500">{targetHours} hours total</span>
@@ -142,7 +145,7 @@ function TimeSpentCard({ totalTime, targetHours, currentProgress }: TimeSpentCar
 // Demo Component
 export default function AchievementCards() {
     return (
-        <div className="max-w-md mx-auto space-y-6">
+        <div className="w-full mx-auto my-auto space-y-2">
             <WorkSessionCard workTime="1:30:12" currentLevel={69} basePoints={2300} bonusPoints={420} maxPoints={5000} />
 
             <StreakCard

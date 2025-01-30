@@ -8,6 +8,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Progress } from "@/components/ui/progress"
 import { createPortal } from "react-dom"
 import { createRoot } from "react-dom/client"
+import { Slider } from "@/components/ui/slider"
+import { Mic1, PlayPause } from "@/components/ui/SVGs"
 
 interface Task {
     id: number
@@ -46,56 +48,86 @@ const PiPWindow: React.FC<PiPWindowProps> = ({
     onValueChange,
     id,
 }) => {
+    const [value, setValue] = useState([25])
+
     return (
         <div className="p-2">
             {isRecording ? (
-                <div className="flex flex-col gap-1 bg-[#22C55EE5] shadow-inset-hard rounded-lg">
-                    <div className="text-white text-sm font-semibold flex justify-between items-center py-2 px-2">
+                <div className="flex flex-col bg-[#22C55EE5] shadow-inset-hard rounded-lg p-1">
+                    <div className="h-10 text-white text-sm font-semibold flex justify-between items-center px-2">
                         {"AI Volume"}
                     </div>
-                    <div className="w-full flex flex-wrap justify-between items-center p-1 gap-1">
-                        <div className="h-10 bg-white/20 rounded-lg flex-1">
-                            <Progress
-                                value={Math.min(progress, 100)}
-                                className="h-full w-full bg-white rounded-lg transition-all duration-300"
+                    <div className="w-full h-10 flex flex-wrap justify-between items-center gap-1">
+                        <div className="h-full bg-white/20 rounded-lg flex-1">
+                            {/* <Progress
+                                        value={Math.min(progress, 100)}
+                                        className="h-full w-full bg-white rounded-lg transition-all duration-300"
+                                    /> */}
+                            <Slider
+                                className="h-10 p-1 rounded-md [&>:last-child>span]:h-6 [&>:last-child>span]:w-2.5 [&>:last-child>span]:border-[3px] [&>:last-child>span]:border-background [&>:last-child>span]:bg-gray-400 [&>:last-child>span]:ring-offset-0"
+                                value={value}
+                                onValueChange={setValue}
+                                aria-label="Slider with output"
+                                trackClassName="h-full rounded-md bg-transparent"
+                                rangeClassName="bg-white"
                             />
+                            {/* <output className="bg-[#0EA5E9] flex justify-center items-center rounded-md font-semibold px-3 py-2 h-10 text-sm text-white w-[52px] tabular-nums">{value[0]}</output> */}
+
                         </div>
-                        <div className="bg-white text-[#22C55EE5] px-2.5 py-2.5 rounded-lg w-fit flex items-center">
-                            <span className="text-sm font-semibold">{formatTime(activeTask?.duration || 0)}</span>
+                        <div className="bg-white text-[#22C55EE5] justify-center w-[52px] py-2.5 rounded-lg flex items-center">
+                            <span className="text-sm font-semibold">{value[0]}</span>
                         </div>
                     </div>
                 </div>
             ) : (
                 <>
                     {micOn ? (
-                        <div className="flex items-center gap-2 p-3 bg-[#22C55EE5] shadow-inset-hard rounded-lg">
-                            <div
-                                className="w-16 h-16 rounded-sm flex-shrink-0 bg-cover bg-center shadow-inset-soft hover:shadow-inset-glow transition duration-300"
-                                style={{
-                                    backgroundImage: "url('/luna.png?height=48&width=48')",
-                                }}
-                            />
-                            <span className="font-semibold text-sm text-white">
-                                How's progress on your Task 1 going? Any challenges you'd like to take?
-                            </span>
+                        <div className="flex flex-col gap-2">
+                            <div className="text-sm h-10 font-semibold flex justify-between items-center px-2">
+                                {activeTask?.name || "Start New Session"}
+                                <Button variant="ghost" className="h-full text-gray-400 bg-transparent" onClick={onClose}>
+                                    <Maximize2 className="h-5 w-5" />
+                                </Button>
+                            </div>
+
+                            <div className="flex items-center gap-2 p-3 bg-[#22C55EE5] shadow-inset-hard rounded-lg">
+                                <div
+                                    className="aspect-square h-[60px] rounded-sm flex-shrink-0 bg-cover bg-center shadow-inset-soft hover:shadow-inset-glow transition duration-300"
+                                    style={{
+                                        backgroundImage: "url('/luna.png')",
+                                    }}
+                                />
+                                <p className="font-semibold text-sm/[18px] tracking-[-0.02em] text-white">
+                                    Hey there! You’re doing an amazing job sticking to your session. Remember, every little bit of effort you put in adds up to something bigger.
+                                </p>
+                            </div>
                         </div>
                     ) : (
-                        <div className="flex flex-col gap-1">
-                            <div className="text-sm font-semibold flex justify-between items-center px-2">
-                                {activeTask?.name || "No Active Task"}
+                        <div className="flex flex-col gap-2">
+                            <div className="text-sm h-10 font-semibold flex justify-between items-center px-2">
+                                {activeTask?.name || "Start New Session"}
                                 <Button variant="ghost" className="text-gray-400 bg-transparent" onClick={onClose}>
                                     <Maximize2 className="h-5 w-5" />
                                 </Button>
                             </div>
-                            <div className="w-full flex flex-wrap justify-between items-center p-1 gap-1">
+                            <div className="w-full flex flex-wrap justify-between items-center gap-1">
                                 <div className="h-10 bg-gray-100 rounded-lg flex-1">
-                                    <Progress
-                                        value={Math.min(progress, 100)}
-                                        className="h-full w-full rounded-lg transition-all duration-300"
+                                    {/* <Progress
+                                                value={Math.min(progress, 100)}
+                                                className="h-full w-full  rounded-lg transition-all duration-300"
+                                            /> */}
+                                    <Slider
+                                        className="h-10 py-1 px-1.5 bg-[#F8F8F8] rounded-md [&>:last-child>span]:h-6 [&>:last-child>span]:w-2.5 [&>:last-child>span]:border-[3px] [&>:last-child>span]:border-background [&>:last-child>span]:bg-[#E5E5E5] [&>:last-child>span]:ring-offset-0"
+                                        value={value}
+                                        onValueChange={setValue}
+                                        trackClassName="h-full rounded-md bg-[#F8F8F8]"
+                                        rangeClassName="bg-[#E5E5E5]"
                                     />
                                 </div>
-                                <div className="bg-gray-900 text-white px-2.5 py-2.5 rounded-lg w-fit flex items-center">
+                                <div className="bg-[#F8F8F8] text-[#A3A3A3] w-[74px] px-2.5 py-2.5 rounded-lg flex items-center">
                                     <span className="text-sm font-semibold">{formatTime(activeTask?.duration || 0)}</span>
+                                    {/* <output className="bg-[#0EA5E9] flex justify-center items-center rounded-md font-semibold px-3 py-2 h-10 text-sm text-white w-[52px] tabular-nums">{value[0]}</output> */}
+
                                 </div>
                             </div>
                         </div>
@@ -105,15 +137,15 @@ const PiPWindow: React.FC<PiPWindowProps> = ({
 
             {/* buttons */}
             {isRecording ? (
-                <div className="grid grid-cols-4 gap-1 items-center h-10">
+                <div className="grid grid-cols-5 gap-1 items-center h-10">
                     <Button
                         variant="ghost"
-                        className={`border-none hover:outline-none hover:border-none bg-transparent hover:bg-transparent ${isRecording ? "text-[#22C55E] bg-[#22C55E1A] hover:bg-[#22C55E1A]" : "text-gray-400"}`}
+                        className={`border-none hover:outline-none hover:border-none bg-transparent hover:bg-transparent ${isRecording ? "text-[#22C55E] bg-[#22C55E1A] hover:bg-[#22C55E1A]" : "text-[#A3A3A3]"}`}
                         onClick={onToggleRecording}
                     >
-                        <AudioLines className="h-6 w-6 shrink-0" />
+                        <AudioLines className={`h-6 w-6 opacity-50 ${isRecording ? "text-[#22C55E]" : "text-gray-400"}`} />
                     </Button>
-                    <div className="col-span-3 inline-flex h-9 rounded-lg bg-input/50 p-0.5 w-full">
+                    <div className="col-span-4 inline-flex h-9 rounded-lg bg-input/50 p-0.5 w-full">
                         <RadioGroup
                             value={selectedValue}
                             onValueChange={onValueChange}
@@ -132,28 +164,36 @@ const PiPWindow: React.FC<PiPWindowProps> = ({
                     </div>
                 </div>
             ) : (
-                <div className="grid grid-cols-4 gap-1 items-center h-10">
+                <div className="grid grid-cols-5 gap-1 items-center h-10">
                     <Button
                         variant="ghost"
                         className={`border-none hover:outline-none hover:border-none bg-transparent hover:bg-transparent ${isRecording ? "text-[#22C55E] bg-[#22C55E1A] hover:bg-[#22C55E1A]" : "text-gray-400"}`}
                         onClick={onToggleRecording}
                     >
-                        <AudioLines className="h-6 w-6 shrink-0" />
+                        <AudioLines className={`h-6 w-6 opacity-50 ${isRecording ? "text-[#22C55E]" : "text-gray-400"}`} />
                     </Button>
                     <Button
                         variant="ghost"
                         className={`border-none hover:outline-none hover:border-none bg-transparent hover:bg-transparent ${micOn ? "text-[#22C55E] bg-[#22C55E1A] hover:bg-[#22C55E1A]" : "text-gray-400"}`}
                         onClick={onToggleMic}
                     >
-                        <Mic className="h-6 w-6" />
+                        <Mic1 />
                     </Button>
+                    <Button
+                        variant="ghost"
+                        className={`border-none hover:outline-none hover:border-none bg-transparent hover:bg-transparent ${micOn ? "text-[#0EA5E9] bg-[#0EA5E91A] hover:bg-[#22C55E1A]" : "text-gray-400"}`}
+                    // onClick={() => setMicOn(!micOn)}
+                    >
+                        Timer
+                    </Button>
+
                     <Button
                         variant="ghost"
                         className="text-gray-400 border-none hover:outline-none hover:border-none bg-transparent hover:bg-transparent"
                         disabled={!activeTask}
                         onClick={onTogglePlay}
                     >
-                        {activeTask?.isPlaying ? <PauseIcon className="h-6 w-6" /> : <PlayIcon className="h-6 w-6" />}
+                        {activeTask?.isPlaying ? <PlayPause /> : <PlayPause />}
                     </Button>
                     <Button
                         variant="ghost"
@@ -161,7 +201,7 @@ const PiPWindow: React.FC<PiPWindowProps> = ({
                         onClick={onStop}
                         disabled={!activeTask}
                     >
-                        <Square className="h-6 w-6 fill-[#EF4444]" />
+                        <Square className="h-5 w-5 fill-[#EF4444]" />
                     </Button>
                 </div>
             )}
@@ -180,6 +220,8 @@ export default function SessionTimer() {
     const [pipActive, setPipActive] = useState(false)
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const videoRef = useRef<HTMLVideoElement>(null)
+    const [value, setValue] = useState([25])
+
 
 
 
@@ -248,8 +290,8 @@ export default function SessionTimer() {
             if ("documentPictureInPicture" in window) {
                 try {
                     const pipWindow = await (window as any).documentPictureInPicture.requestWindow({
-                        width: 320,
-                        height: 240,
+                        width: 424,
+                        height: 200,
                     })
 
                     // Copy styles to PiP window
@@ -336,58 +378,86 @@ export default function SessionTimer() {
     ])
 
     return (
-        <div className="min-h-full w-full flex flex-col justify-center">
-            <div className="w-1/3 mx-auto space-y-2 flex-grow flex flex-col justify-center">
+        <div className="relative min-h-full w-full flex flex-col justify-center">
+            <div className="relative w-[424px] mx-auto space-y-1 flex-grow flex flex-col justify-center">
                 {/* Active Task Card */}
-                <Card className="bg-white gap-1 flex flex-col p-2">
+                <Card className="bg-white gap-2 flex flex-col p-2">
                     {isRecording ? (
-                        <div className="flex flex-col gap-1 bg-[#22C55EE5] shadow-inset-hard rounded-lg">
-                            <div className="text-white text-sm font-semibold flex justify-between items-center py-2 px-2">
+                        <div className="flex flex-col bg-[#22C55EE5] shadow-inset-hard rounded-lg p-1">
+                            <div className="h-10 text-white text-sm font-semibold flex justify-between items-center px-2">
                                 {"AI Volume"}
                             </div>
-                            <div className="w-full flex flex-wrap justify-between items-center p-1 gap-1">
-                                <div className="h-10 bg-white/20 rounded-lg flex-1">
-                                    <Progress
+                            <div className="w-full h-10 flex flex-wrap justify-between items-center gap-1">
+                                <div className="h-full bg-white/20 rounded-lg flex-1">
+                                    {/* <Progress
                                         value={Math.min(progress, 100)}
                                         className="h-full w-full bg-white rounded-lg transition-all duration-300"
+                                    /> */}
+                                    <Slider
+                                        className="h-10 p-1 rounded-md [&>:last-child>span]:h-6 [&>:last-child>span]:w-2.5 [&>:last-child>span]:border-[3px] [&>:last-child>span]:border-background [&>:last-child>span]:bg-gray-400 [&>:last-child>span]:ring-offset-0"
+                                        value={value}
+                                        onValueChange={setValue}
+                                        aria-label="Slider with output"
+                                        trackClassName="h-full rounded-md bg-transparent"
+                                        rangeClassName="bg-white"
                                     />
+                                    {/* <output className="bg-[#0EA5E9] flex justify-center items-center rounded-md font-semibold px-3 py-2 h-10 text-sm text-white w-[52px] tabular-nums">{value[0]}</output> */}
+
                                 </div>
-                                <div className="bg-white text-[#22C55EE5] px-2.5 py-2.5 rounded-lg w-fit flex items-center">
-                                    <span className="text-sm font-semibold">{formatTime(activeTask?.duration || 0)}</span>
+                                <div className="bg-white text-[#22C55EE5] justify-center w-[52px] py-2.5 rounded-lg flex items-center">
+                                    <span className="text-sm font-semibold">{value[0]}</span>
                                 </div>
                             </div>
                         </div>
                     ) : (
                         <>
                             {micOn ? (
-                                <div className="flex items-center gap-2 p-3 bg-[#22C55EE5] shadow-inset-hard rounded-lg">
-                                    <div
-                                        className="w-16 h-16 rounded-sm flex-shrink-0 bg-cover bg-center shadow-inset-soft hover:shadow-inset-glow transition duration-300"
-                                        style={{
-                                            backgroundImage: "url('/luna.png?height=48&width=48')",
-                                        }}
-                                    />
-                                    <span className="font-semibold text-sm text-white">
-                                        How's progress on your Task 1 going? Any challenges you'd like to take?
-                                    </span>
-                                </div>
-                            ) : (
-                                <div className="flex flex-col gap-1">
-                                    <div className="text-sm font-semibold flex justify-between items-center px-2">
-                                        {activeTask?.name || "No Active Task"}
-                                        <Button variant="ghost" className="text-gray-400 bg-transparent" onClick={togglePiP}>
+                                <div className="flex flex-col gap-2">
+                                    <div className="text-sm h-10 font-semibold flex justify-between items-center px-2">
+                                        {activeTask?.name || "Start New Session"}
+                                        <Button variant="ghost" className="h-full text-gray-400 bg-transparent" onClick={togglePiP}>
                                             {pipActive ? <Maximize2 className="h-5 w-5" /> : <Minimize2 className="h-5 w-5" />}
                                         </Button>
                                     </div>
-                                    <div className="w-full flex flex-wrap justify-between items-center p-1 gap-1">
+
+                                    <div className="flex items-center gap-2 p-3 bg-[#22C55EE5] shadow-inset-hard rounded-lg">
+                                        <div
+                                            className="aspect-square h-[60px] rounded-sm flex-shrink-0 bg-cover bg-center shadow-inset-soft hover:shadow-inset-glow transition duration-300"
+                                            style={{
+                                                backgroundImage: "url('/luna.png')",
+                                            }}
+                                        />
+                                        <p className="font-semibold text-sm/[18px] tracking-[-0.02em] text-white">
+                                            Hey there! You’re doing an amazing job sticking to your session. Remember, every little bit of effort you put in adds up to something bigger.
+                                        </p>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="flex flex-col gap-2">
+                                    <div className="text-sm h-10 font-semibold flex justify-between items-center px-2">
+                                        {activeTask?.name || "Start New Session"}
+                                        <Button variant="ghost" className="h-full text-gray-400 bg-transparent" onClick={togglePiP}>
+                                            {pipActive ? <Maximize2 className="h-5 w-5" /> : <Minimize2 className="h-5 w-5" />}
+                                        </Button>
+                                    </div>
+                                    <div className="w-full flex flex-wrap justify-between items-center gap-1">
                                         <div className="h-10 bg-gray-100 rounded-lg flex-1">
-                                            <Progress
+                                            {/* <Progress
                                                 value={Math.min(progress, 100)}
                                                 className="h-full w-full  rounded-lg transition-all duration-300"
+                                            /> */}
+                                            <Slider
+                                                className="h-10 py-1 px-1.5 bg-[#F8F8F8] rounded-md [&>:last-child>span]:h-6 [&>:last-child>span]:w-2.5 [&>:last-child>span]:border-[3px] [&>:last-child>span]:border-background [&>:last-child>span]:bg-[#E5E5E5] [&>:last-child>span]:ring-offset-0"
+                                                value={value}
+                                                onValueChange={setValue}
+                                                trackClassName="h-full rounded-md bg-[#F8F8F8]"
+                                                rangeClassName="bg-[#E5E5E5]"
                                             />
                                         </div>
-                                        <div className="bg-gray-900 text-white px-2.5 py-2.5 rounded-lg w-fit flex items-center">
+                                        <div className="bg-[#F8F8F8] text-[#A3A3A3] w-[74px] px-2.5 py-2.5 rounded-lg flex items-center">
                                             <span className="text-sm font-semibold">{formatTime(activeTask?.duration || 0)}</span>
+                                            {/* <output className="bg-[#0EA5E9] flex justify-center items-center rounded-md font-semibold px-3 py-2 h-10 text-sm text-white w-[52px] tabular-nums">{value[0]}</output> */}
+
                                         </div>
                                     </div>
                                 </div>
@@ -397,15 +467,16 @@ export default function SessionTimer() {
 
                     {/* buttons */}
                     {isRecording ? (
-                        <div className="grid grid-cols-4 gap-1 items-center h-10">
+                        <div className="grid grid-cols-5 gap-1 items-center h-10">
                             <Button
                                 variant="ghost"
-                                className={`border-none hover:outline-none hover:border-none bg-transparent hover:bg-transparent ${isRecording ? "text-[#22C55E] bg-[#22C55E1A] hover:bg-[#22C55E1A]" : "text-gray-400"}`}
+                                className={`border-none hover:outline-none hover:border-none bg-transparent hover:bg-transparent ${isRecording ? "text-[#22C55E] bg-[#22C55E1A] hover:bg-[#22C55E1A]" : "text-[#A3A3A3]"}`}
                                 onClick={() => setIsRecording(!isRecording)}
                             >
-                                <AudioLines className="h-6 w-6 shrink-0" />
+                                {/* <AudioLines className={`h-6 w-6 ${isRecording ? "text-[#22C55E] bg-[#22C55E1A]" : "text-gray-400"}`} /> */}
+                                <AudioLines className={`h-6 w-6 opacity-50 ${isRecording ? "text-[#22C55E]" : "text-gray-400"}`} />
                             </Button>
-                            <div className="col-span-3 inline-flex h-9 rounded-lg bg-input/50 p-0.5 w-full">
+                            <div className="col-span-4 inline-flex h-9 rounded-lg bg-input/50 p-0.5 w-full">
                                 <RadioGroup
                                     value={selectedValue}
                                     onValueChange={setSelectedValue}
@@ -424,20 +495,29 @@ export default function SessionTimer() {
                             </div>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-4 gap-1 items-center h-10">
+                        <div className="grid grid-cols-5 gap-1 items-center h-10">
                             <Button
                                 variant="ghost"
                                 className={`border-none hover:outline-none hover:border-none bg-transparent hover:bg-transparent ${isRecording ? "text-[#22C55E] bg-[#22C55E1A] hover:bg-[#22C55E1A]" : "text-gray-400"}`}
                                 onClick={() => setIsRecording(!isRecording)}
                             >
-                                <AudioLines className="h-6 w-6 shrink-0" />
+                                {/* <AudioLines className="h-6 w-6 shrink-0" /> */}
+                                <AudioLines className={`h-6 w-6 opacity-50 ${isRecording ? "text-[#22C55E]" : "text-gray-400"}`} />
+
                             </Button>
                             <Button
                                 variant="ghost"
                                 className={`border-none hover:outline-none hover:border-none bg-transparent hover:bg-transparent ${micOn ? "text-[#22C55E] bg-[#22C55E1A] hover:bg-[#22C55E1A]" : "text-gray-400"}`}
                                 onClick={() => setMicOn(!micOn)}
                             >
-                                <Mic className="h-6 w-6" />
+                                <Mic1 />
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                className={`border-none hover:outline-none hover:border-none bg-transparent hover:bg-transparent ${micOn ? "text-[#0EA5E9] bg-[#0EA5E91A] hover:bg-[#22C55E1A]" : "text-gray-400"}`}
+                            // onClick={() => setMicOn(!micOn)}
+                            >
+                                Timer
                             </Button>
                             <Button
                                 variant="ghost"
@@ -445,7 +525,7 @@ export default function SessionTimer() {
                                 disabled={!activeTask}
                                 onClick={() => activeTaskId && handleTaskSelect(activeTaskId)}
                             >
-                                {activeTask?.isPlaying ? <PauseIcon className="h-6 w-6" /> : <PlayIcon className="h-6 w-6" />}
+                                {activeTask?.isPlaying ? <PlayPause /> : <PlayPause />}
                             </Button>
                             <Button
                                 variant="ghost"
@@ -453,56 +533,54 @@ export default function SessionTimer() {
                                 onClick={handleStop}
                                 disabled={!activeTask}
                             >
-                                <Square className="h-6 w-6 fill-[#EF4444]" />
+                                <Square className="h-5 w-5 fill-[#EF4444]" />
                             </Button>
                         </div>
                     )}
                 </Card>
 
                 {/* Tasks List Card */}
-                <Card>
-                    <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-semibold">Today</CardTitle>
-                    </CardHeader>
-                    <CardContent className="flex flex-col gap-1">
+                <Card className="p-2">
+                    <div className="text-sm flex items-center font-semibold px-2 mb-1 h-10">Today</div>
+                    <div className="flex flex-col gap-1">
                         {tasks.map((task) => (
-                            <div key={task.id} className="flex items-center justify-between p-1 bg-gray-50 rounded-lg">
-                                <span className="text-gray-500 font-semibold text-sm py-3 px-3">{task.name}</span>
-                                <div className="flex items-center gap-1">
-                                    <span className="text-gray-500 py-2 bg-white px-2.5 rounded-lg">{formatTime(task.duration)}</span>
+                            <div key={task.id} className="h-12 flex items-center justify-between p-1 bg-gray-50 rounded-lg">
+                                <span className="h-10 flex items-center text-[#999999] font-semibold text-sm">{task.name}</span>
+                                <div className="h-10 flex items-center gap-1">
+                                    <span className="text-[#999999] py-2 bg-white px-2.5 rounded-lg">{formatTime(task.duration)}</span>
                                     <Button
                                         variant="ghost"
-                                        className="text-gray-400 bg-white py-2 px-7"
+                                        className="h-full text-[#999999] bg-white py-2 px-7"
                                         onClick={() => handleTaskSelect(task.id)}
                                     >
-                                        {task.isPlaying ? <PauseIcon className="h-5 w-5" /> : <PlayIcon className="h-5 w-5" />}
+                                        {task.isPlaying ? <PlayPause /> : <PlayPause />}
                                     </Button>
                                 </div>
                             </div>
                         ))}
-                        <Button className="w-full bg-[#0EA5E9] hover:bg-sky-400 text-white py-6 mt-3" onClick={handleNewTask}>
+                        <Button className="w-full bg-[#0EA5E9] hover:bg-sky-400 text-white h-10 mt-4" onClick={handleNewTask}>
                             New Task
                         </Button>
-                    </CardContent>
+                    </div>
                 </Card>
             </div>
-            <footer className="mt-4 mb-6 text-center flex w-full items-center justify-center flex-col">
-                <div className="flex gap-2 w-full items-center justify-center">
+            <footer className="absolute mb-6 bottom-0 text-center flex w-full items-center justify-center flex-col">
+                <div className="flex gap-1 w-full items-center justify-center">
                     <Button
                         variant="ghost"
-                        className="py-3 px-14 bg-[#FAFAFA] font-semibold text-[#A3A3A3] hover:border-gray-400"
+                        className="py-3 w-[150px] bg-[#F8F8F8] text-sm font-semibold text-[#999999] hover:border-gray-400"
                     >
                         Leaderboard
                     </Button>
                     <Button
                         variant="ghost"
-                        className="py-3 px-14 bg-[#FAFAFA] font-semibold text-[#A3A3A3] hover:border-gray-400"
+                        className="py-3 w-[150px] bg-[#F8F8F8] text-sm font-semibold text-[#999999] hover:border-gray-400"
                     >
                         Session History
                     </Button>
                     <Button
                         variant="ghost"
-                        className="py-3 px-14 bg-[#FAFAFA] font-semibold text-[#A3A3A3] hover:border-gray-400"
+                        className="py-3 w-[150px] bg-[#F8F8F8] text-sm font-semibold text-[#999999] hover:border-gray-400"
                     >
                         Profile
                     </Button>

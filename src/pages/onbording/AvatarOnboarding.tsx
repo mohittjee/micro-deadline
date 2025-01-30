@@ -14,6 +14,7 @@ import { Progress } from '@/components/ui/progress';
 import { AudioLines, Dot } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
+import { Slider } from '@/components/ui/slider';
 
 
 
@@ -22,25 +23,27 @@ export const NewSession = () => {
   const id = useId();
   const [selectedValue, setSelectedValue] = useState("on");
   return (
-    <div className='w-full flex flex-col items-center justify-center'>
-      <Card className="w-fit grid grid-cols-2 p-0 shadow-none">
-        <div className="flex flex-col gap-6 p-12">
+    <div className='relative w-full h-full flex flex-col items-center justify-center'>
+      <Card className="relative w-[888px] grid grid-cols-2 p-2 shadow-none">
+        <div className="flex flex-col gap-6 p-12 text-[#262626]">
           <div>
-            <p className="mb-2 block font-semibold text-xs">
+            <p className="mb-1.5 block font-semibold text-xs">
               What are we working on today?            </p>
-            <Textarea className='border-none bg-[#F8F8F8]' placeholder='Write a short description' />
+            <Textarea className='border-none bg-[#F8F8F8] h-24 rounded-md' placeholder='Write a short description' />
           </div>
           <div>
-            <p className="mb-2 block font-semibold text-xs">
+            <p className="mb-1.5 block font-semibold text-xs">
               Set Timer
             </p>
-            <div className="flex items-center space-x-1">
-              <Progress className='h-8 bg-[#F8F8F8] rounded-md' value={33} />
-              <Button className='bg-[#0EA5E9] border-none outline-none hover:border-none hover:outline-none'>30:00</Button>
+            <div className="flex items-center justify-center space-x-1 h-10 bg-[#F8F8F8]">
+              <span className='text-[#999999] font-semibold text-sm'>00:30:00</span>
+
+              {/* <Progress className='h-8 bg-[#F8F8F8] rounded-md' value={33} />
+              <Button className='bg-[#0EA5E9] border-none outline-none hover:border-none hover:outline-none'>30:00</Button> */}
             </div>
           </div>
           <div>
-            <p className="mb-2 block font-semibold text-xs">
+            <p className="mb-1.5 block font-semibold text-xs">
               AI Check In
             </p>
             <div className="inline-flex h-9 rounded-lg bg-input/50 p-0.5 w-full">
@@ -62,19 +65,18 @@ export const NewSession = () => {
             </div>
           </div>
           <div>
-            <p className="mb-2 block font-semibold text-xs">
+            <p className="mb-1.5 block font-semibold text-xs">
               Check In every
             </p>
-            <div className="flex items-center space-x-1">
-              <Progress className='h-8 bg-[#F8F8F8] rounded-md' value={33} />
-              <Button className='bg-[#0EA5E9] border-none outline-none hover:border-none hover:outline-none'>15:00</Button>
+            <div className="flex items-center justify-center space-x-1 h-10 bg-[#F8F8F8]">
+              <span className='text-[#999999] font-semibold text-sm'>00:30:00</span>
+              {/* <Progress className='h-8 bg-[#F8F8F8] rounded-md' value={33} />
+              <Button className='bg-[#0EA5E9] border-none outline-none hover:border-none hover:outline-none'>15:00</Button> */}
             </div>
           </div>
         </div>
 
-        <Card className="w-full max-w-sm p-10 my-2 mr-2 gap-6 bg-miko backdrop-blur-64 border-none rounded-none rounded-r-lg shadow-inset-hard flex flex-col items-center">
-
-          {/* <div> */}
+        <Card className="w-full px-14 pt-12 gap-6 bg-miko backdrop-blur-64 border-none rounded-lg shadow-inset-hard flex flex-col items-center">
           <div
             className="w-full aspect-square rounded-lg flex-shrink-0 bg-cover bg-center shadow-inset-avatar bg-gradient-avatar"
             style={{
@@ -83,11 +85,11 @@ export const NewSession = () => {
           />
 
           <div className='w-full flex flex-col gap-6 items-center text-[#262626]'>
-            <div className='flex flex-col items-center'>
-              <span className='font-semibold text-xl'>Miko</span>
-              <p className='text-[#999999] font-medium text-sm text-center'>Meet Miko, she's basically your hype-person. She can't help but do digital backflips every time you accomplish something, and trust me her enthusiasm is hilariously contagious!</p>
+            <div className='flex flex-col items-center gap-2'>
+              <span className='font-semibold text-xl/5'>Miko</span>
+              <p className='text-[#999999] font-medium text-sm text-center px-2'>Meet Miko, she's basically your hype-person. She can't help but do digital backflips every time you accomplish something, and trust me her enthusiasm is hilariously contagious!</p>
             </div>
-            <div className="flex justify-end space-x-2">
+            <div className="flex justify-end pb-[42px] space-x-1">
               <Badge variant="outline" className='bg-[#EC4899] text-xs font-bold text-white rounded-xl shadow-inset-badge border-none'>
                 Sweet
               </Badge>
@@ -99,16 +101,16 @@ export const NewSession = () => {
         </Card>
       </Card>
 
-      <footer className="mt-12 mb-6 text-center flex gap-6 w-full items-center justify-center flex-col">
+      <footer className="absolute mb-6 bottom-0 text-center flex gap-6 w-full items-center justify-center flex-col">
         <div className='flex'>
           <Dot className='' />
           <Dot />
         </div>
         <div className='flex gap-2 w-full items-center justify-center'>
-          <Button variant="ghost" className="py-3 px-14 bg-[#FAFAFA] font-semibold text-[#A3A3A3] hover:border-gray-400">
+          <Button variant="ghost" className="w-[171px] py-3 text-sm  bg-[#FAFAFA] font-semibold text-[#A3A3A3] hover:border-gray-400">
             Skip
           </Button>
-          <Button className="bg-[#FAFAFA]py-3 px-14  shadow-none bg-foreground font-semibold hover:border-gray-400">
+          <Button className="bg-[#FAFAFA] py-3 w-[171px] text-sm shadow-none bg-foreground font-semibold hover:border-gray-400">
             Continue
           </Button>
         </div>
@@ -118,28 +120,26 @@ export const NewSession = () => {
 };
 
 
-
-
-
-
 const AvatarOnboarding = () => {
   const id = useId();
   const [selectedValue, setSelectedValue] = useState("on");
+  const [value, setValue] = useState([25])
+
   return (
-    <div className='w-full flex flex-col items-center justify-center'>
-      <Card className="w-fit grid grid-cols-2 p-0 shadow-none">
-        <div className="flex flex-col gap-6 p-12">
+    <div className='relative w-full h-full flex flex-col items-center justify-center'>
+      <Card className="relative w-[888px] grid grid-cols-2 p-2 shadow-none">
+        <div className="flex flex-col gap-6 p-12 text-[#262626]">
           <div>
-            <p className="mb-2 block font-semibold text-xs">
+            <p className="mb-1.5 block font-semibold text-xs">
               What should Voice AI call you?
             </p>
             <Input type="name" placeholder="Name" />
           </div>
           <div>
-            <p className="mb-2 block font-semibold text-xs">
+            <p className="mb-1.5 block font-semibold text-xs">
               Do you work or study?
             </p>
-            <div className="inline-flex h-9 rounded-lg bg-input/50 p-0.5 w-full">
+            <div className="inline-flex h-10 rounded-lg bg-input/50 p-0.5 w-full">
               <RadioGroup
                 value={selectedValue}
                 onValueChange={setSelectedValue}
@@ -158,18 +158,18 @@ const AvatarOnboarding = () => {
             </div>
           </div>
           <div>
-            <p className="mb-2 block font-semibold text-xs">
+            <p className="mb-1.5 block font-semibold text-xs">
               What are you studying?
             </p>
             <Input id="studying" placeholder="Psychology at Princeton, Class of 24" />
           </div>
           <div>
-            <p className="mb-2 block font-semibold text-xs">
+            <p className="mb-1.5 block font-semibold text-xs">
               AI Voice
             </p>
 
             <Select>
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="w-full h-10 shadow-none border">
                 <SelectValue placeholder="Select AI Avatar" />
               </SelectTrigger>
               <SelectContent>
@@ -181,25 +181,33 @@ const AvatarOnboarding = () => {
 
           </div>
           <div>
-            <p className="mb-2 block font-semibold text-xs">
+            <p className="mb-1.5 block font-semibold text-xs">
               Additional notes to AI
             </p>
             <Input id="additional-notes" placeholder="Suggest additional behaviours, habits,..." />
           </div>
           <div>
-            <p className="mb-2 block font-semibold text-xs">
+            <p className="mb-1.5 block font-semibold text-xs">
               AI Volume
             </p>
-            <div className="flex items-center space-x-1">
-              <Progress className='h-8 bg-[#F8F8F8] rounded-md' value={33} />
-              <Button className='bg-[#0EA5E9] border-none outline-none hover:border-none hover:outline-none'><AudioLines /></Button>
+            <div className="flex items-center space-x-1 ">
+              {/* <Progress className='h-10 bg-[#F8F8F8] rounded-md' value={33} />
+              <Button className='bg-[#0EA5E9] h-10 border-none outline-none hover:border-none hover:outline-none'><AudioLines /></Button>
+               */}
+              <Slider
+                className="h-10 py-1 px-1.5 bg-[#F8F8F8] rounded-md [&>:last-child>span]:h-6 [&>:last-child>span]:w-2.5 [&>:last-child>span]:border-[3px] [&>:last-child>span]:border-background [&>:last-child>span]:bg-[#0EA5E9] [&>:last-child>span]:ring-offset-0"
+                value={value}
+                onValueChange={setValue}
+                aria-label="Slider with output"
+                trackClassName="h-full rounded-md bg-[#F8F8F8]"
+                rangeClassName="bg-[#0EA5E9]"
+              />
+              <output className="bg-[#0EA5E9] flex justify-center items-center rounded-md font-semibold px-3 py-2 h-10 text-sm text-white w-[52px] tabular-nums">{value[0]}</output>
             </div>
           </div>
         </div>
 
-        <Card className="w-full max-w-sm p-10 my-2 mr-2 gap-6 bg-miko backdrop-blur-64 border-none rounded-none rounded-r-lg shadow-inset-hard flex flex-col items-center">
-
-          {/* <div> */}
+        <Card className="w-full px-14 pt-12 gap-6 bg-miko backdrop-blur-64 border-none rounded-lg shadow-inset-hard flex flex-col items-center">
           <div
             className="w-full aspect-square rounded-lg flex-shrink-0 bg-cover bg-center shadow-inset-avatar bg-gradient-avatar"
             style={{
@@ -208,11 +216,11 @@ const AvatarOnboarding = () => {
           />
 
           <div className='w-full flex flex-col gap-6 items-center text-[#262626]'>
-            <div className='flex flex-col items-center'>
-              <span className='font-semibold text-xl'>Miko</span>
-              <p className='text-[#999999] font-medium text-sm text-center'>Meet Miko, she's basically your hype-person. She can't help but do digital backflips every time you accomplish something, and trust me her enthusiasm is hilariously contagious!</p>
+            <div className='flex flex-col items-center gap-2'>
+              <span className='font-semibold text-xl/5'>Miko</span>
+              <p className='text-[#999999] font-medium text-sm text-center px-2'>Meet Miko, she's basically your hype-person. She can't help but do digital backflips every time you accomplish something, and trust me her enthusiasm is hilariously contagious!</p>
             </div>
-            <div className="flex justify-end space-x-2">
+            <div className="flex justify-end space-x-1">
               <Badge variant="outline" className='bg-[#EC4899] text-xs font-bold text-white rounded-xl shadow-inset-badge border-none'>
                 Sweet
               </Badge>
@@ -224,16 +232,16 @@ const AvatarOnboarding = () => {
         </Card>
       </Card>
 
-      <footer className="mt-12 mb-6 text-center flex gap-6 w-full items-center justify-center flex-col">
+      <footer className="absolute mb-6 bottom-0 text-center flex gap-6 w-full items-center justify-center flex-col">
         <div className='flex'>
           <Dot className='' />
           <Dot />
         </div>
         <div className='flex gap-2 w-full items-center justify-center'>
-          <Button variant="ghost" className="py-3 px-14 bg-[#FAFAFA] font-semibold text-[#A3A3A3] hover:border-gray-400">
+          <Button variant="ghost" className="w-[171px] py-3 text-sm  bg-[#FAFAFA] font-semibold text-[#A3A3A3] hover:border-gray-400">
             Skip
           </Button>
-          <Button className="bg-[#FAFAFA]py-3 px-14  shadow-none bg-foreground font-semibold hover:border-gray-400">
+          <Button className="bg-[#FAFAFA] py-3 w-[171px] text-sm shadow-none bg-foreground font-semibold hover:border-gray-400">
             Continue
           </Button>
         </div>

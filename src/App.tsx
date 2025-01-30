@@ -10,20 +10,21 @@ import Profile from "./pages/profile/Profile";
 function App() {
   return (
     <Router>
-      <div className="h-screen bg-white/80 backdrop-blur-xl flex flex-col w-screen overflow-x-hidden overflow-y-scroll invisible-scrollbar">
-        <div className="absolute inset-0 -top-32 -z-10">
+      <div className="h-screen relative bg-white/80 backdrop-blur-xl w-screen overflow-x-hidden overflow-y-scroll invisible-scrollbar">
+        {/* Background Gradient */}
+        <div className="absolute inset-0 -top-0 -z-10">
           <BlueGradient />
         </div>
 
         {/* Fixed Header */}
         <header className="sticky top-0 bg-none z-10">
-          <div className="container mx-auto px-4 py-4">
-            <h1 className="text-xl font-semibold text-gray-900 text-center">MicroDeadline</h1>
+          <div className="container mx-auto px-4 py-8">
+            <h1 className="text-xl/6 tracking-[-0.04em] font-semibold text-gray-900 text-center">MicroDeadline</h1>
           </div>
         </header>
 
         {/* Main Content Area */}
-        <main className="flex-1 overflow-y-auto invisible-scrollbar">
+        <main className="absolute inset-0 flex items-center justify-center">
           <Routes>
             <Route path="/" element={<Page />} />
             <Route path="/setup" element={<AvatarOnboarding />} />

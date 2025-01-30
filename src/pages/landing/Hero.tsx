@@ -30,14 +30,14 @@ export default function Page() {
             </div>
 
             {/* Main content */}
-            <div className="relative z-10 px-4 py-8 max-w-2xl w-full">
-                <main className="text-center flex flex-col items-center">
-                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <div className="relative z-10 max-w-2xl w-full h-full justify-between flex flex-col">
+                <main className="relative text-center px-4 flex flex-col items-center justify-center flex-1">
+                    <h2 className="text-[40px]/[48px] font-bold text-center text-gray-900 mb-6">
                         Level Up Your <span className="block">Productivity Game</span>
                     </h2>
 
-                    <p className="text-[#00000080] mb-12 px-10 text-lg font-medium">
-                        Stay focused, track your time, and achieve your goals with the power of AI on your side.
+                    <p className="text-[#00000080] mb-12 px-10 text-base/[22px] font-medium">
+                        Stay focused, track your time, and achieve your<br /> goals with the power of AI on your side.
                     </p>
 
                     {/* Chat card */}
@@ -70,12 +70,10 @@ export default function Page() {
                         </div>
 
                     </div>
-
-
                 </main>
 
                 {/* Footer */}
-                <footer className="mt-12 text-center">
+                <footer className="absolute mb-6 bottom-0 w-full text-center">
                     <Button variant="ghost" className="bg-[#FAFAFA] font-semibold text-[#A3A3A3] hover:border-gray-400">
                         About
                     </Button>

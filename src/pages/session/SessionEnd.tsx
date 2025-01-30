@@ -3,10 +3,10 @@ import { Button } from '@/components/ui/button'
 
 const SessionEnd = () => {
     return (
-        <div className="min-h-screen w-full flex flex-col">
-            <div className="w-1/3 mx-auto space-y-4 flex-grow">
+        <div className="h-full w-full flex flex-col">
+            <div className="w-[350px] mx-auto space-y-6 flex-grow">
                 <AchievementCards />
-                <footer className="text-center flex flex-col w-full items-center justify-center ">
+                <footer className=" mb-6 bottom-0 text-center flex w-full items-center justify-center flex-col">
                     <Button
                         className="py-3 bg-black w-full font-semibold  hover:border-gray-400"
                     >
