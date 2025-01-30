@@ -73,11 +73,11 @@ function Badge({ color }: { color: string }) {
 export default function Leaderboard() {
     return (
         <div className="flex flex-col items-center justify-center h-full">
-            <Card className=" w-[60vw] p-2 mb-10 h-[80vh] shadow-none border-[#F5F5F5] ">
+            <Card className=" w-[55vw] p-2 my-16 h-[70vh] shadow-none border-[#F5F5F5] ">
                 <div className="relative overflow-y-scroll h-full invisible-scrollbar">
                     <Table className="">
-                        <TableHeader className="sticky top-0 bg-white z-50">
-                            <TableRow>
+                        <TableHeader className="sticky top-0 bg-white z-50 ">
+                            <TableRow className="border-none">
                                 <TableHead className="w-24 text-center">Rank</TableHead>
                                 <TableHead className="w-24 text-center">Level</TableHead>
                                 <TableHead>Name</TableHead>
@@ -85,7 +85,7 @@ export default function Leaderboard() {
                                 <TableHead className="w-32 text-center">Total Time</TableHead>
                             </TableRow>
                         </TableHeader>
-                        <TableBody className="">
+                        <TableBody >
                             {leaderboardData.map((entry, index) => (
                                 <TableRow
                                     key={index}
@@ -102,40 +102,49 @@ export default function Leaderboard() {
                                         }
                         rounded-xl border-none`}
                                 >
-                                    <TableCell className="font-medium text-center">{entry.rank}</TableCell>
+                                    <TableCell className={`font-medium text-center 
+                                        ${index === 0 ? "pb-4" : "pb-0"}`}>{entry.rank}</TableCell>
                                     <TableCell>
-                                        <div className="flex items-center gap-2 text-center">
+                                        <div className={`flex items-center gap-2 text-center 
+                                        ${index === 0 ? "pb-4" : "pb-0"}`}
+                                        >
                                             <Badge color={entry.badgeColor} />
                                             {entry.level}
                                         </div>
                                     </TableCell>
-                                    <TableCell className="text-left">{entry.name}</TableCell>
-                                    <TableCell className="text-center">{entry.streak}</TableCell>
-                                    <TableCell className="text-center">{entry.totalTime}</TableCell>
+                                    <TableCell className={`text-left 
+                                    ${index === 0 ? "pb-4" : "pb-0"}`}
+                                    >{entry.name}</TableCell>
+                                    <TableCell className={`text-center
+                                    ${index === 0 ? "pb-4" : "pb-0"}`}>{entry.streak}</TableCell>
+                                    <TableCell className={`text-center
+                                    ${index === 0 ? "pb-4" : "pb-0"}`}
+                                    >{entry.totalTime}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
-                    <div className="sticky bottom-0 w-full bg-gradient-to-t from-white via-white/40 to-transparent h-20 -mt-20 pointer-events-none" />
+                    <div className="sticky -bottom-1 w-full bg-gradient-to-t from-white via-white/40 to-transparent h-20 -mt-20 pointer-events-none" />
                 </div>
             </Card>
 
-            <footer className="mt-4 mb-6 text-center flex w-full items-center justify-center flex-col">
-                <div className="flex gap-2 w-full items-center justify-center">
+            <footer className="absolute mb-6 bottom-0 text-center flex w-full items-center justify-center flex-col">
+                <div className="flex gap-1 w-full items-center justify-center">
                     <Button
-                        className="py-3 px-14 bg-[#0EA5E9] hover:bg-[#0EA5E9] font-semibold text-white hover:border-gray-400"
+                        variant="ghost"
+                        className="py-3 w-[150px] bg-[#0EA5E9] text-sm font-semibold text-[#FFFFFF] hover:border-gray-400"
                     >
                         Leaderboard
                     </Button>
                     <Button
                         variant="ghost"
-                        className="py-3 px-14 bg-[#FAFAFA] font-semibold text-[#A3A3A3] hover:border-gray-400"
+                        className="py-3 w-[150px] bg-[#F8F8F8] text-sm font-semibold text-[#999999] hover:border-gray-400"
                     >
                         Session History
                     </Button>
                     <Button
                         variant="ghost"
-                        className="py-3 px-14 bg-[#FAFAFA] font-semibold text-[#A3A3A3] hover:border-gray-400"
+                        className="py-3 w-[150px] bg-[#F8F8F8] text-sm font-semibold text-[#999999] hover:border-gray-400"
                     >
                         Profile
                     </Button>
