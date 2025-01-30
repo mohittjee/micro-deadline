@@ -72,8 +72,8 @@ function Badge({ color }: { color: string }) {
 
 export default function Leaderboard() {
     return (
-        <>
-            <Card className="w-full max-w-3xl mx-auto p-2 mb-10 h-5/6 shadow-none border-[#F5F5F5] ">
+        <div className="flex flex-col items-center justify-center h-full">
+            <Card className=" w-[60vw] p-2 mb-10 h-[80vh] shadow-none border-[#F5F5F5] ">
                 <div className="overflow-y-scroll h-full invisible-scrollbar">
                     <Table className="">
                         <TableHeader className="sticky top-0 bg-white z-50">
@@ -140,7 +140,7 @@ export default function Leaderboard() {
                     </Button>
                 </div>
             </footer>
-        </>
+            </div>
     )
 }
 
