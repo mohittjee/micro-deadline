@@ -32,14 +32,11 @@ export default function Profile() {
     ]
 
     return (
-        <div className="min-h-screen bg-transparent flex items-center flex-col gap-16 justify-center p-4">
-            <Card className="w-full max-w-md p-2 font-semibold">
-                {/* Logo and Name */}
-                <div className="flex flex-col items-center py-3 gap-3">
+        <div className="h-full relative bg-transparent flex items-center flex-col gap-16 justify-center w-full">
+            <Card className="w-[350px] relative max-w-md p-2 font-semibold">
+                <div className="flex flex-col items-center py-4 gap-1">
                     <Achievement2 />
-                    {/* <div className=" w-24 h-24">
-                    </div> */}
-                    <h2 className="text-lg font-semibold">Dennis</h2>
+                    <h2 className="text-lg/5 font-semibold tracking-[-0.01em] text-[#262626]">Dennis</h2>
                 </div>
 
                 {/* XP Progress */}
@@ -60,16 +57,16 @@ export default function Profile() {
                         <span>Streak</span>
                         <span>50 Days</span>
                     </div>
-                    <div className="grid grid-cols-7 gap-2">
+                    <div className="grid grid-cols-7 gap-1 h-10">
                         {streakDays.map((day, index) => (
                             <div
                                 key={day}
                                 className={cn(
-                                    "aspect-square flex items-center justify-center rounded-xl text-sm font-medium",
+                                    "aspect-square flex items-center justify-center rounded-lg text-sm font-medium",
                                     activeStreak.includes(index)
                                         ? index === currentDay
-                                            ? "bg-yellow-400 text-yellow-900"
-                                            : "bg-blue-500 text-white"
+                                            ? "bg-yellow-400 text-white"
+                                            : "bg-[#0EA5E9] text-white"
                                         : "bg-gray-100 text-gray-400",
                                 )}
                             >
@@ -108,23 +105,23 @@ export default function Profile() {
                     </div>
                 </div>
             </Card>
-            <footer className="mt-4 mb-6 text-center flex w-full items-center justify-center flex-col">
+            <footer className="absolute mb-6 bottom-0  text-center flex w-full items-center justify-center flex-col">
                 <div className="flex gap-2 w-full items-center justify-center">
                     <Button
                         variant="ghost"
-                        className="py-3 px-14 bg-[#FAFAFA] font-semibold text-[#A3A3A3] hover:border-gray-400"
+                        className="py-3 w-[150px] bg-[#FAFAFA] font-semibold text-[#A3A3A3] hover:border-gray-400"
                     >
                         Leaderboard
                     </Button>
                     <Button
                         variant="ghost"
-                        className="py-3 px-14 bg-[#FAFAFA] font-semibold text-[#A3A3A3] hover:border-gray-400"
+                        className="py-3 w-[150px] bg-[#FAFAFA] font-semibold text-[#A3A3A3] hover:border-gray-400"
                     >
                         Session History
                     </Button>
 
                     <Button
-                        className="py-3 px-14 bg-[#0EA5E9] hover:bg-[#0EA5E9] font-semibold text-white hover:border-gray-400"
+                        className="py-3 w-[150px] bg-[#0EA5E9] hover:bg-[#0EA5E9] font-semibold text-white hover:border-gray-400"
                     >
                         Profile
                     </Button>

@@ -12,7 +12,7 @@ function App() {
     <Router>
       <div className="h-screen relative bg-white/80 backdrop-blur-xl w-screen overflow-x-hidden overflow-y-scroll invisible-scrollbar">
         {/* Background Gradient */}
-        <div className="absolute inset-0 -top-0 -z-10">
+        <div className="absolute flex justify-center inset-0 -top-0 -z-10">
           <BlueGradient />
         </div>
 

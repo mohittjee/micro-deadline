@@ -3,10 +3,9 @@ import { Progress } from "@/components/ui/progress"
 import { cn } from "@/lib/utils"
 import { Achievement2, FireBadge, Timer } from "./ui/SVGs"
 
-// Base Achievement Card Component
 interface AchievementCardProps {
-    title: string
-    subtitle?: string
+    title: React.ReactNode // Allow JSX in title
+    subtitle?: React.ReactNode // Allow JSX in subtitle
     icon: React.ReactNode
     children?: React.ReactNode
     className?: string
@@ -15,14 +14,14 @@ interface AchievementCardProps {
 function AchievementCard({ title, subtitle, icon, children, className }: AchievementCardProps) {
     return (
         <Card className={cn("w-full max-w-md overflow-hidden p-2 flex flex-col gap-2", className)}>
-            {/* <CardHeader className="text-center space-y-1 ">
-               
-            </CardHeader> */}
-            <div className=" rounded-lg  backdrop-blur-3xl shadow-inset-hard-2 bg-gradient-blue-white">
-                <span className="text-lg py-4 font-medium text-gray-700 flex flex-col text-center items-center">
-                    {title} <br />
-                    {subtitle && <>{subtitle}</>}
-                </span>
+            <div className="rounded-lg flex flex-col py-4 gap-4 backdrop-blur-3xl shadow-inset-hard-2 bg-gradient-blue-white">
+                <div className="text-lg/5 tracking-[-0.01em] font-medium text-[#082F49] flex flex-col text-center items-center">
+                    <div>
+                        <span>{title}</span>
+                        <br />
+                        {subtitle && <span>{subtitle}</span>}
+                    </div>
+                </div>
                 <div className="flex justify-center">{icon}</div>
             </div>
             {children}
@@ -42,8 +41,12 @@ interface WorkSessionCardProps {
 function WorkSessionCard({ workTime, currentLevel, basePoints, bonusPoints, maxPoints }: WorkSessionCardProps) {
     return (
         <AchievementCard
-            title="Great Job!"
-            subtitle={`You worked for ${workTime}`}
+            title={<span>Great Job!</span>}
+            subtitle={
+                <span>
+                    You worked for <strong className="font-bold">{workTime}</strong>
+                </span>
+            }
             icon={
                 <Achievement2 />
             }
@@ -56,16 +59,19 @@ function WorkSessionCard({ workTime, currentLevel, basePoints, bonusPoints, maxP
                     </span>
                 </div>
                 <div className="relative ">
-                    <Progress value={(basePoints / maxPoints) * 100} className="h-8 bg-gray-100 rounded-lg" />
-                    <Progress
-                        value={((basePoints + bonusPoints) / maxPoints) * 100}
-                        className="h-8 absolute top-0 left-0 bg-amber-400 rounded-none rounded-r-lg"
-                        style={{
-                            width: `${(bonusPoints / maxPoints) * 100}%`,
-                            marginLeft: `${(basePoints / maxPoints) * 100}%`,
-                        }}
-                    />
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 bg-[#0EA5E9] text-white rounded-lg w-12 h-8 flex items-center justify-center text-sm font-semi-bold">
+                    <div className="space-x-1">
+
+                        <Progress value={(basePoints / maxPoints) * 100} className="h-10 bg-gray-100 rounded-lg" />
+                        <Progress
+                            value={((basePoints + bonusPoints) / maxPoints) * 100}
+                            className="h-10 absolute top-0 left-0 bg-amber-400 rounded-none rounded-r-lg"
+                            style={{
+                                width: `${(bonusPoints / maxPoints) * 100}%`,
+                                marginLeft: `${(basePoints / maxPoints) * 100}%`,
+                            }}
+                        />
+                    </div>
+                    <div className="absolute right-0 top-1/2 h-full -translate-y-1/2 bg-[#0EA5E9] text-white rounded-lg w-12 flex items-center justify-center text-sm font-semi-bold">
                         {currentLevel}
                     </div>
                 </div>
@@ -85,7 +91,11 @@ function StreakCard({ days, weekProgress }: StreakCardProps) {
 
     return (
         <AchievementCard
-            title={`${days} day streak!`}
+            title={
+                <span>
+                    <strong className="font-bold">{days}</strong> day streak!
+                </span>
+            }
             subtitle="You're on fire!"
             icon={
                 <FireBadge />
@@ -125,7 +135,12 @@ interface TimeSpentCardProps {
 function TimeSpentCard({ totalTime, targetHours, currentProgress }: TimeSpentCardProps) {
     return (
         <AchievementCard
-            title={`${totalTime} total time spent`}
+            // title={`${totalTime} total time spent`}
+            title={
+                <span>
+                    <strong className="font-bold">{totalTime}</strong> total time spent
+                </span>
+            }
             subtitle="Way to go!"
             icon={
                 <Timer />
@@ -136,13 +151,14 @@ function TimeSpentCard({ totalTime, targetHours, currentProgress }: TimeSpentCar
                     <span className="text-sm font-semibold px-2">Next award in</span>
                     <span className="text-sm font-semibold text-gray-500">{targetHours} hours total</span>
                 </div>
-                <Progress value={currentProgress} className="h-8 rounded-lg" />
+                <div className="h-10 p-1 rounded-lg bg-[#F8F8F8]">
+                    <Progress value={currentProgress} className="h-full rounded-lg bg-transparent" />
+                </div>
             </div>
         </AchievementCard>
     )
 }
 
-// Demo Component
 export default function AchievementCards() {
     return (
         <div className="w-full mx-auto my-auto space-y-2">

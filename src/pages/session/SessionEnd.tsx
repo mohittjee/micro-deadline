@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 const SessionEnd = () => {
     return (
         <div className="h-full w-full flex flex-col">
-            <div className="w-[350px] mx-auto space-y-6 flex-grow">
+            <div className="w-[350px] mx-auto space-y-6 flex-grow pt-20">
                 <AchievementCards />
                 <footer className=" mb-6 bottom-0 text-center flex w-full items-center justify-center flex-col">
                     <Button
