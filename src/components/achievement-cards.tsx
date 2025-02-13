@@ -11,19 +11,21 @@ interface AchievementCardProps {
     className?: string
 }
 
-function AchievementCard({ title, subtitle, icon, children, className }: AchievementCardProps) {
+export function AchievementCard({ title, subtitle, icon, children, className }: AchievementCardProps) {
     return (
         <Card className={cn("w-full max-w-md overflow-hidden p-2 flex flex-col gap-2", className)}>
-            <div className="rounded-lg flex flex-col py-4 gap-4 backdrop-blur-3xl shadow-inset-hard-2 bg-gradient-blue-white">
-                <div className="text-lg/5 tracking-[-0.01em] font-medium text-[#082F49] flex flex-col text-center items-center">
-                    <div>
-                        <span>{title}</span>
-                        <br />
-                        {subtitle && <span>{subtitle}</span>}
+            {/* <div className="rounded-lg flex flex-col backdrop-blur-3xl shadow-inset-hard bg-gradient-blue-white"> */}
+                <div className="rounded-lg flex flex-col py-4 gap-4 backdrop-blur-3xl shadow-inset-glow-64 bg-gradient-blue-white">
+                    <div className="text-lg/5 tracking-[-0.01em] font-medium text-[#082F49] flex flex-col text-center items-center">
+                        <div>
+                            <span>{title}</span>
+                            <br />
+                            {subtitle && <span>{subtitle}</span>}
+                        </div>
                     </div>
+                    <div className="flex justify-center">{icon}</div>
                 </div>
-                <div className="flex justify-center">{icon}</div>
-            </div>
+            {/* </div> */}
             {children}
         </Card>
     )

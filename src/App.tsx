@@ -1,11 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Page from "./pages/landing/Hero";
-import AvatarOnboarding, { NewSession } from "./pages/onbording/AvatarOnboarding";
+// import AvatarOnboarding, { NewSession } from "./pages/onbording/AvatarOnboarding";
+import AvatarOnboarding from "./pages/onbording/AvatarOnboarding";
 import { BlueGradient } from "./components/ui/SVGs";
 import SessionTimer from "./pages/session/SessionTimer";
 import SessionEnd from "./pages/session/SessionEnd";
 import Leaderboard from "./pages/leaderboard/Leaderboard";
 import Profile from "./pages/profile/Profile";
+import SessionSettings from "./pages/onbording/SessionSettings";
 
 function App() {
   return (
@@ -28,11 +30,12 @@ function App() {
           <Routes>
             <Route path="/" element={<Page />} />
             <Route path="/setup" element={<AvatarOnboarding />} />
-            <Route path="/session" element={<NewSession />} />
+            {/* <Route path="/session" element={<NewSession />} /> */}
+            <Route path="/session-settings" element={<SessionSettings />} />
             <Route path="/session-timer" element={<SessionTimer />} />
             <Route path="/session-end" element={<SessionEnd />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/profile" element={<Profile />} />
+            {/* <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/profile" element={<Profile />} /> */}
           </Routes>
         </main>
       </div>

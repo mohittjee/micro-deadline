@@ -10,6 +10,8 @@ export default {
 				'blaze': 'linear-gradient(180deg, #0EA5E9 0%, #FFFFFF 100%)',
 				'kai': 'linear-gradient(180deg, #F59E0B 0%, #FFFFFF 100%)',
 				'daniel': 'linear-gradient(180deg, #3B82F6 0%, #FFFFFF 100%)',
+				'akira': 'linear-gradient(180deg, #EF4444 0%, #FFFFFF 100%)',
+				'luna': 'linear-gradient(180deg, #34D399 0%, #FFFFFF 100%)',
 				'gradient-avatar': 'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.25) 177.25%)',
 				'gradient-blue-white': 'linear-gradient(180deg, rgba(14, 165, 233, 0.5) 0%, rgba(255, 255, 255, 0.5) 100%)',
 			},
@@ -18,9 +20,12 @@ export default {
 				'inset-badge': '0px 0px 8px 0px rgba(255, 255, 255, 0.5) inset',
 				'inset-glow': '0px 0px 24px 0px #FFFFFF80 inset',
 				'inset-hard': '0px 0px 32px 0px #FFFFFF inset',
+				"inset-strong": "inset 0px 0px 48px 0px #FFFFFF",
 				'inset-heavy': '0px 0px 48px 0px #FFFFFF inset',
 				'inset-avatar': '0px 0px 32px 6px #FFFFFF inset, 0px 0px 100px 0px #FFFFFF inset',
-				'inset-hard-2': '0px 0px 32px 0px rgba(255, 255, 255, 1) inset', // Strong inset glow
+				'inset-hard-2': '0px 0px 32px 0px rgba(255, 255, 255, 1) inset',
+				"inset-soft-glow": "inset 0px 0px 8px 0px #FFFFFF, inset 0px 0px 24px 0px #FFFFFF80",
+				"inset-glow-64": "inset 0px 0px 64px 0px #FFFFFF",
 
 			},
 			backdropBlur: {
