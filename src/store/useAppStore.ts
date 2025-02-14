@@ -26,6 +26,8 @@ interface AppState {
   selectedAvatar: string
   additionalNotes: string
   aiVolume: number
+  workStudyDescription: string
+  timerClick: boolean
   setTimerValue: (value: number) => void
   setAiCheckinValue: (value: number) => void
   setAiCheckIn: (value: boolean) => void
@@ -44,6 +46,8 @@ interface AppState {
   setSelectedAvatar: (avatar: string) => void
   setAdditionalNotes: (notes: string) => void
   setAiVolume: (volume: number) => void
+  setWorkStudyDescription: (description: string) => void
+  setTimerClick: (value: boolean) => void
 }
 
 interface Task {
@@ -72,6 +76,8 @@ const useAppStore = create<AppState>()(
       selectedAvatar: "miko",
       additionalNotes: "",
       aiVolume: 25,
+      workStudyDescription: "",
+      timerClick: false,
       setTimerValue: (value) => set({ timerValue: value }),
       setAiCheckinValue: (value) => set({ aiCheckinValue: value }),
       setAiCheckIn: (value) => set({ aiCheckIn: value }),
@@ -96,6 +102,8 @@ const useAppStore = create<AppState>()(
       setSelectedAvatar: (avatar) => set({ selectedAvatar: avatar }),
       setAdditionalNotes: (notes) => set({ additionalNotes: notes }),
       setAiVolume: (volume) => set({ aiVolume: volume }),
+      setWorkStudyDescription: (description) => set({ workStudyDescription: description }),
+      setTimerClick: (value) => set({ timerClick: value }),
     }),
     {
       name: "app-storage",
