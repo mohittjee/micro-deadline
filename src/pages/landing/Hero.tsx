@@ -9,7 +9,7 @@ import useAppStore from "@/store/useAppStore"
 import { BlurBadge, CheckBadge, FireBadge, LevelBlurBadge, SingleLineBadge, TripleLineBadge } from "@/components/ui/SVGs"
 
 export default function Page() {
-    const { timerValue, aiCheckinValue, aiCheckIn, setTimerValue, setAiCheckinValue, setAiCheckIn, timerOn, setTimerOn } =
+    const { timerValue, aiCheckinValue, aiCheckIn, workStudyDescription, setWorkStudyDescription, setTimerValue, setAiCheckinValue, setAiCheckIn, timerOn, setTimerOn } =
         useAppStore()
     const navigate = useNavigate()
 
@@ -81,6 +81,8 @@ export default function Page() {
                             <Input
                                 className="border-none bg-[#F8F8F8] h-10 overflow-auto rounded-md text-sm font-semibold tracking-[-0.04em] placeholder:font-semibold placeholder:text-sm"
                                 placeholder="Write a short description"
+                                value={workStudyDescription}
+                                onChange={(e) => setWorkStudyDescription(e.target.value)}
                             />
                         </div>
 

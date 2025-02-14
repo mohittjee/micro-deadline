@@ -87,6 +87,8 @@ const AvatarOnboarding = () => {
     setSelectedAvatar,
     setAdditionalNotes,
     setAiVolume,
+    workStudyDescription,
+    setWorkStudyDescription,
   } = useAppStore()
 
   const currentAvatar = avatarData[selectedAvatar]
@@ -126,13 +128,16 @@ const AvatarOnboarding = () => {
             </div>
           </div>
           <div>
-            <p className="mb-1.5 block font-semibold text-xs">What are you studying?</p>
+            <p className="mb-1.5 block font-semibold text-xs">
+              {userOccupation === "work" ? "What are you working on?" : "What are you studying?"}
+            </p>
             <Input
-              id="studying"
-              placeholder="Psychology at Princeton, Class of 24"
+              id="workStudyDescription"
+              placeholder={userOccupation === "work" ? "Project at Company X" : "Psychology at Princeton, Class of 24"}
               className="placeholder:text-sm text-sm placeholder:font-medium font-medium placeholder:text-[#999999] placeholder:tracking-[-0.01em]"
-              value={userStudy}
-              onChange={(e) => setUserStudy(e.target.value)}
+              value={workStudyDescription}
+              onChange={(e) => setWorkStudyDescription(e.target.value)}
+              required
             />
           </div>
           <div>
@@ -214,13 +219,25 @@ const AvatarOnboarding = () => {
           <Button
             variant="ghost"
             className="w-[171px] py-3 text-sm bg-[#FAFAFA] font-semibold text-[#A3A3A3] hover:border-gray-400"
-            onClick={() => navigate("/session-settings")}
+            onClick={() => {
+              if (userName && userOccupation && workStudyDescription && selectedAvatar) {
+                navigate("/session-settings")
+              } else {
+                alert("Please fill in all fields before continuing.")
+              }
+            }}
           >
             Skip
           </Button>
           <Button
             className="bg-[#FAFAFA] py-3 w-[171px] text-sm shadow-none bg-foreground font-semibold hover:border-gray-400"
-            onClick={() => navigate("/session-settings")}
+            onClick={() => {
+              if (userName && userOccupation && workStudyDescription && selectedAvatar) {
+                navigate("/session-settings")
+              } else {
+                alert("Please fill in all fields before continuing.")
+              }
+            }}
           >
             Continue
           </Button>
@@ -231,6 +248,8 @@ const AvatarOnboarding = () => {
 }
 
 export default AvatarOnboarding
+
+
 
 
 

@@ -1,15 +1,13 @@
 import { AchievementCard } from "@/components/achievement-cards"
 import { Button } from "@/components/ui/button"
 import { Achievement2 } from "@/components/ui/SVGs"
-import { useNavigate } from "react-router-dom"
-import useAppStore from "@/store/useAppStore"
+import { useNavigate, useLocation } from "react-router-dom"
 import { formatTime } from "@/lib/time"
 
 const SessionEnd = () => {
   const navigate = useNavigate()
-  const { activeTaskId, tasks } = useAppStore()
-
-  const activeTask = tasks.find((task) => task.id === activeTaskId)
+  const location = useLocation()
+  const sessionDuration = location.state?.sessionDuration || 0
 
   return (
     <div className="relative z-10 max-w-2xl w-full h-full justify-center items-center flex flex-col">
@@ -19,7 +17,7 @@ const SessionEnd = () => {
           title={<span>Great Job!</span>}
           subtitle={
             <span>
-              You worked for <strong className="font-bold">{formatTime(activeTask?.duration || 0)}</strong>
+              You worked for <strong className="font-bold">{formatTime(sessionDuration)}</strong>
             </span>
           }
           icon={<Achievement2 />}

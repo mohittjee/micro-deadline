@@ -609,6 +609,7 @@
 
 
 
+import type React from "react"
 import { useState, useEffect, useRef, useId, useCallback } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -624,49 +625,77 @@ import useAppStore from "@/store/useAppStore"
 
 interface PiPWindowProps {
   onClose: () => void
+  currentTime: number
 }
 
-const PiPWindow: React.FC<PiPWindowProps> = ({ onClose }) => {
+const PiPWindow: React.FC<PiPWindowProps> = ({ onClose, currentTime: initialTime }) => {
   const {
-    activeTaskId,
-    tasks,
+    timerValue,
+    aiCheckinValue,
+    aiCheckIn,
     isAIVolume,
     micOn,
     timerOn,
     isPause,
     selectedValue,
+    workStudyDescription,
+    aiVolume,
     setIsAIVolume,
     setMicOn,
     setTimerOn,
     setIsPause,
     setSelectedValue,
-    updateTask,
+    setAiVolume,
+    timerClick,
+    setTimerClick,
   } = useAppStore()
 
-  const activeTask = tasks.find((task) => task.id === activeTaskId)
-  const progress = activeTask
-    ? (activeTask.duration / (30 * 60 * 1000)) * 100 // 30 minutes as total
-    : 0
+  const [currentTime, setCurrentTime] = useState(initialTime)
+  const progress = ((timerValue * 60 * 1000 - currentTime) / (timerValue * 60 * 1000)) * 100
+  // const navigate = useNavigate()
 
-  const [value, setValue] = useState([25])
 
-  const handleTogglePlay = () => {
-    if (activeTaskId) {
-      updateTask(activeTaskId, { isPlaying: !isPause })
-      setIsPause(!isPause)
+  useEffect(() => {
+    let interval: NodeJS.Timeout
+    if (timerOn && !isPause) {
+      interval = setInterval(() => {
+        setCurrentTime((prevTime) => {
+          if (prevTime <= 0) {
+            clearInterval(interval)
+            setTimerOn(false)
+            // navigate("/session-end", { state: { sessionDuration: timerValue * 60 * 1000 } })
+            onClose()
+            return 0
+          }
+          return prevTime - 10
+        })
+      }, 10)
     }
+    return () => clearInterval(interval)
+  }, [timerOn, isPause, setTimerOn, timerValue,])
+
+  const handleMicToggle = () => {
+    setMicOn(!micOn)
+  }
+
+  const handlePlayPause = () => {
+    setIsPause(!isPause)
   }
 
   const handleStop = () => {
-    if (activeTaskId) {
-      updateTask(activeTaskId, { isPlaying: false })
-      setIsPause(true)
-    }
     onClose()
   }
 
+
   return (
-    <div className="p-2">
+    <div className="p-2 space-y-2">
+      <div className="text-sm h-10 font-semibold flex justify-between items-center px-2">
+        {workStudyDescription || "Start New Session"}
+        <Button variant="ghost" className="h-full text-gray-400 bg-transparent" onClick={onClose}>
+          <Maximize2 className="h-5 w-5" />
+        </Button>
+      </div>
+
       {isAIVolume ? (
         <div className="flex flex-col bg-[#22C55EE5] shadow-inset-hard rounded-lg p-1">
           <div className="h-10 text-white text-sm font-semibold flex justify-between items-center px-2">AI Volume</div>
@@ -674,25 +703,25 @@ const PiPWindow: React.FC<PiPWindowProps> = ({ onClose }) => {
             <div className="h-full bg-white/20 rounded-lg flex-1">
               <Slider
                 className="h-10 p-1 rounded-md [&>:last-child>span]:h-6 [&>:last-child>span]:w-2.5 [&>:last-child>span]:border-[3px] [&>:last-child>span]:border-background [&>:last-child>span]:bg-gray-400 [&>:last-child>span]:ring-offset-0"
-                value={value}
-                onValueChange={setValue}
+                value={[aiVolume]}
+                onValueChange={(value) => setAiVolume(value[0])}
                 trackClassName="h-full rounded-md bg-transparent"
                 rangeClassName="bg-white"
               />
             </div>
             <div className="bg-white text-[#22C55EE5] justify-center w-[52px] py-2.5 rounded-lg flex items-center">
-              <span className="text-sm font-semibold">{value[0]}</span>
+              <span className="text-sm font-semibold">{aiVolume}</span>
             </div>
           </div>
         </div>
       ) : (
         <div className="flex flex-col gap-2">
-          <div className="text-sm h-10 font-semibold flex justify-between items-center px-2">
-            {activeTask?.name || "Start New Session"}
+          {/* <div className="text-sm h-10 font-semibold flex justify-between items-center px-2">
+            {workStudyDescription || "Session Started"}
             <Button variant="ghost" className="h-full text-gray-400 bg-transparent" onClick={onClose}>
               <Maximize2 className="h-5 w-5" />
             </Button>
-          </div>
+          </div> */}
 
           <div className="flex items-center gap-2 p-3 bg-[#22C55EE5] shadow-inset-hard rounded-lg">
             <div
@@ -707,11 +736,20 @@ const PiPWindow: React.FC<PiPWindowProps> = ({ onClose }) => {
             </p>
           </div>
 
-          {timerOn && (
+          {timerClick && (
             <div className="h-10 rounded-lg p-1 my-2 bg-[#F8F8F8]">
               <Progress
                 value={Math.min(progress, 100)}
                 className="h-full w-full bg-transparent rounded-md transition-all duration-300"
+              />
+            </div>
+          )}
+          {isPause && (
+            <div className="h-10 rounded-lg p-1 my-2 bg-[#F8F8F8]">
+              <Progress
+                value={Math.min(progress, 100)}
+                className="h-full w-full bg-transparent rounded-md transition-all duration-300"
+                indicatorClassName="bg-[#E5E5E5]"
               />
             </div>
           )}
@@ -743,24 +781,25 @@ const PiPWindow: React.FC<PiPWindowProps> = ({ onClose }) => {
           </div>
         ) : (
           <>
-            <Button variant="ghost" className={`${micOn ? "bg-[#0EA5E9]/10" : ""}`} onClick={() => setMicOn(!micOn)}>
+            <Button variant="ghost" className={`${micOn ? "bg-[#0EA5E9]/10" : ""}`} onClick={handleMicToggle}>
               {micOn ? <Mic2 /> : <Mic1 />}
             </Button>
             <Button
               variant="ghost"
-              className={`text-sm font-semibold ${timerOn ? "text-[#0EA5E9] bg-[#0EA5E9]/10" : "text-[#A3A3A3]"}`}
-              onClick={() => setTimerOn(!timerOn)}
+              className={`text-sm font-semibold ${timerClick ? "text-[#0EA5E9] bg-[#0EA5E9]/10" : "text-[#A3A3A3]"}`}
+              onClick={() => {
+                setTimerClick(!timerClick)
+              }}
             >
-              {formatTime(activeTask?.duration || 0)}
+              {formatTime(currentTime)}
             </Button>
-            <Button variant="ghost" className={`${isPause ? "" : "bg-[#0EA5E9]/10"}`} onClick={handleTogglePlay}>
-              {isPause ? <PlayPause /> : <PlayPause2 />}
+            <Button variant="ghost" className={`${isPause ? "bg-[#0EA5E9]/10" : ""}`} onClick={handlePlayPause}>
+              {isPause ? <PlayPause2 /> : <PlayPause />}
             </Button>
             <Button
               variant="ghost"
               className="text-red-500 border-none hover:outline-none hover:border-none bg-[#EF44441A] hover:bg-[#EF44441A]"
               onClick={handleStop}
-              disabled={!activeTask}
             >
               <Square className="h-5 w-5 fill-[#EF4444]" />
             </Button>
@@ -781,7 +820,7 @@ export default function SessionTimer() {
     timerOn,
     isPause,
     selectedValue,
-    userStudy,
+    workStudyDescription,
     aiVolume,
     setIsAIVolume,
     setMicOn,
@@ -789,6 +828,8 @@ export default function SessionTimer() {
     setIsPause,
     setSelectedValue,
     setAiVolume,
+    timerClick,
+    setTimerClick,
   } = useAppStore()
 
   const [currentTime, setCurrentTime] = useState(timerValue * 60 * 1000)
@@ -798,7 +839,6 @@ export default function SessionTimer() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const [pipWindow, setPipWindow] = useState<Window | null>(null)
-  const [timerClick, setTimerClick] = useState(false);
 
   const progress = ((timerValue * 60 * 1000 - currentTime) / (timerValue * 60 * 1000)) * 100
 
@@ -810,6 +850,7 @@ export default function SessionTimer() {
           if (prevTime <= 0) {
             clearInterval(interval)
             setTimerOn(false)
+            navigate("/session-end", { state: { sessionDuration: timerValue * 60 * 1000 } })
             return 0
           }
           return prevTime - 10
@@ -817,15 +858,15 @@ export default function SessionTimer() {
       }, 10)
     }
     return () => clearInterval(interval)
-  }, [timerOn, isPause, setTimerOn])
+  }, [timerOn, isPause, setTimerOn, timerValue, navigate])
 
   useEffect(() => {
     setTimerOn(true)
-  }, [setTimerOn])
+    setIsPause(false)
+  }, [setTimerOn, setIsPause])
 
   const handleMicToggle = () => {
     setMicOn(!micOn)
-    
   }
 
   const handlePlayPause = () => {
@@ -835,7 +876,8 @@ export default function SessionTimer() {
   const handleStop = () => {
     setTimerOn(false)
     setIsPause(true)
-    navigate("/session-end")
+    pipWindow?.close()
+    navigate("/session-end", { state: { sessionDuration: timerValue * 60 * 1000 - currentTime } })
   }
 
   const togglePiP = useCallback(async () => {
@@ -892,6 +934,7 @@ export default function SessionTimer() {
                 pipWindow.close()
                 setPipActive(false)
               }}
+              currentTime={currentTime}
             />,
           )
 
@@ -914,7 +957,7 @@ export default function SessionTimer() {
         }
       }
     }
-  }, [pipActive])
+  }, [pipActive, currentTime])
 
   return (
     <div className="relative min-h-full w-full flex flex-col justify-center">
@@ -923,7 +966,7 @@ export default function SessionTimer() {
         <Card className="bg-white gap-2 flex flex-col p-2">
           <div className="flex flex-col gap-2">
             <div className="text-sm h-10 font-semibold flex justify-between items-center px-2">
-              {userStudy || "Start New Session"}
+              {workStudyDescription || "Start New Session"}
               <Button variant="ghost" className="h-full text-gray-400 bg-transparent" onClick={togglePiP}>
                 {pipActive ? <Maximize2 className="h-5 w-5" /> : <Minimize2 className="h-5 w-5" />}
               </Button>
@@ -1021,7 +1064,7 @@ export default function SessionTimer() {
                 <Button
                   variant="ghost"
                   className={`text-sm font-semibold ${timerClick ? "text-[#0EA5E9] bg-[#0EA5E9]/10" : "text-[#A3A3A3]"}`}
-                  onClick={() => {setTimerClick(!timerClick)}}
+                  onClick={() => setTimerClick(!timerClick)}
                 >
                   {formatTime(currentTime)}
                 </Button>
@@ -1055,6 +1098,10 @@ export default function SessionTimer() {
     </div>
   )
 }
+
+
+
+
 
 
 

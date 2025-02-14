@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -5,11 +7,14 @@ import { Slider } from "@/components/ui/slider"
 import { formatTime } from "@/lib/time"
 import { useNavigate } from "react-router-dom"
 import useAppStore from "@/store/useAppStore"
+import { useState } from "react"
 
 const SessionSettings = () => {
-  const { timerValue, aiCheckinValue, aiCheckIn, setTimerValue, setAiCheckinValue, setAiCheckIn, timerOn, setTimerOn } =
+  const { timerValue,workStudyDescription, aiCheckinValue, aiCheckIn, setTimerValue, setWorkStudyDescription, setAiCheckinValue, setAiCheckIn, timerOn, setTimerOn } =
     useAppStore()
   const navigate = useNavigate()
+  // const [workStudyDescription, setWorkStudyDescription] = useState("")
+  const [isPause, setIsPause] = useState(false)
 
   return (
     <div className="relative z-10 max-w-2xl w-full h-full justify-center items-center flex flex-col">
@@ -33,6 +38,9 @@ const SessionSettings = () => {
           <Input
             className="border-none bg-[#F8F8F8] h-10 overflow-auto rounded-md text-sm font-semibold tracking-[-0.04em] placeholder:font-semibold placeholder:text-sm"
             placeholder="Write a short description"
+            value={workStudyDescription}
+            onChange={(e) => setWorkStudyDescription(e.target.value)}
+            required
           />
         </div>
 
@@ -82,8 +90,13 @@ const SessionSettings = () => {
           <Button
             className="w-full h-full bg-[#0EA5E9] font-semibold text-sm/4 tracking-[-0.01em]"
             onClick={() => {
-              setTimerOn(true)
-              navigate("/session-timer")
+              if (workStudyDescription && timerValue > 0) {
+                setTimerOn(true)
+                setIsPause(false)
+                navigate("/session-timer")
+              } else {
+                alert("Please fill in all fields and set a timer value before starting the session.")
+              }
             }}
           >
             Start Session Now
